@@ -10,12 +10,17 @@
     <h2>{{ person2.name }}</h2>
     <button @click="sayhello">marhaba</button>
     <button @click="myage++">Inc</button>
+    <hr />
+    <input type="text" v-model="search" />{{ search }}
+    <div v-for="course in result">
+      {{ course }}
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 export default {
   name: 'Home',
   setup() {
@@ -24,7 +29,16 @@ export default {
     let age = ref(24);
     let titre = ref(null);
     let person1 = ref({ name: 'marwan', dest: 'canada' });
+    //reactive seulement pour les variable composer (les objet , les tab), effectuer sans .value
     let person2 = reactive({ name: 'karim', age: 55 });
+    const courses = ref(['laravel', 'angular', 'vuejs', 'symfony', 'mongodb']);
+    const search = ref('');
+
+    const result = computed(() => {
+      return courses.value.filter((course) => course.includes(search.value));
+    });
+
+    //
 
     const sayhello = () => {
       console.log(titre.value);
@@ -42,6 +56,9 @@ export default {
       myage: age,
       person1,
       person2,
+      courses,
+      search,
+      result,
     };
   },
 };
