@@ -12,6 +12,9 @@
     <button @click="myage++">Inc</button>
     <hr />
     <input type="text" v-model="search" />{{ search }}
+    <button @click="handlewatch">
+      stop watch
+    </button>
     <div v-for="course in result">
       {{ course }}
     </div>
@@ -20,7 +23,7 @@
 
 <script>
 // @ is an alias to /src
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watchEffect, watch } from 'vue';
 export default {
   name: 'Home',
   setup() {
@@ -33,7 +36,19 @@ export default {
     let person2 = reactive({ name: 'karim', age: 55 });
     const courses = ref(['laravel', 'angular', 'vuejs', 'symfony', 'mongodb']);
     const search = ref('');
+    //watch
+    const stopwatch = watch(search, () => {
+      console.log('i watch', search.value);
+    });
 
+    const stopwatchEffect = watchEffect(() => {
+      console.log('watch effect', search.value);
+    });
+
+    const handlewatch = () => {
+      stopwatch();
+      stopwatchEffect();
+    };
     const result = computed(() => {
       return courses.value.filter((course) => course.includes(search.value));
     });
@@ -59,6 +74,7 @@ export default {
       courses,
       search,
       result,
+      handlewatch,
     };
   },
 };
