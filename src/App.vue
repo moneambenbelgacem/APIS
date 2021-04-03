@@ -5,8 +5,30 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view />
+  <div>
+    <button @click="preview">PREVIEW</button>
+    <button @click="next">NEXT</button>
+    <button @click="redirect">BACK TO HOME</button>
+  </div>
 </template>
-
+<script>
+import { useRouter } from 'vue-router';
+export default {
+  setup() {
+    const router = useRouter();
+    const preview = () => {
+      router.go(-1);
+    };
+    const next = () => {
+      router.go(1);
+    };
+    const redirect = () => {
+      router.push('/');
+    };
+    return { preview, next, redirect };
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
